@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chic Tees - Women's T-Shirt Brand</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #tshirt-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        #tshirt-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        #tshirt-name {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #333;
+        }
+        #tshirt-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        #size-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .size-btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .size-btn:hover {
+            background-color: #f0f0f0;
+        }
+        .size-btn.selected {
+            background-color: #333;
+            color: white;
+        }
+        #navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .nav-btn:hover {
+            background-color: #555;
+        }
+        .nav-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chic Tees</h1>
+    <div id="tshirt-container">
+        <img id="tshirt-image" alt="T-shirt">
+        <h2 id="tshirt-name"></h2>
+        <p id="tshirt-description"></p>
+        <div id="size-container"></div>
+    </div>
+    <div id="navigation">
+        <button id="prev-btn" class="nav-btn">Previous</button>
+        <button id="next-btn" class="nav-btn">Next</button>
+    </div>
+
+    <script>
+        const tshirts = [
+            {
+                name: "Classic White Tee",
+                description: "A timeless white t-shirt that goes with everything.",
+                image: "/placeholder.svg?height=400&width=600",
+                sizes: ["XS", "S", "M", "L", "XL"]
+            },
+            {
+                name: "Vintage Wash Graphic Tee",
+                description: "A soft, vintage-inspired graphic tee with a trendy design.",
+                image: "/placeholder.svg?height=400&width=600",
+                sizes: ["S", "M", "L", "XL"]
+            },
+            {
+                name: "Cropped V-Neck",
+                description: "A stylish cropped v-neck tee, perfect for summer days.",
+                image: "/placeholder.svg?height=400&width=600",
+                sizes: ["XS", "S", "M", "L"]
+            },
+            {
+                name: "Oversized Boyfriend Tee",
+                description: "A comfortable, relaxed fit tee for a casual look.",
+                image: "/placeholder.svg?height=400&width=600",
+                sizes: ["S", "M", "L", "XL", "XXL"]
+            },
+            {
+                name: "Striped Sailor Tee",
+                description: "A nautical-inspired striped tee for a classic look.",
+                image: "/placeholder.svg?height=400&width=600",
+                sizes: ["XS", "S", "M", "L", "XL"]
+            },
+            {
+                name: "Eco-Friendly Organic Cotton Tee",
+                description: "A sustainable and soft organic cotton tee for the environmentally conscious.",
+                image: "/placeholder.svg?height=400&width=600",
+                sizes: ["S", "M", "L", "XL"]
+            }
+        ];
+
+        let currentIndex = 0;
+
+        const tshirtImage = document.getElementById('tshirt-image');
+        const tshirtName = document.getElementById('tshirt-name');
+        const tshirtDescription = document.getElementById('tshirt-description');
+        const sizeContainer = document.getElementById('size-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function displayTshirt(index) {
+            const tshirt = tshirts[index];
+            tshirtImage.src = tshirt.image;
+            tshirtImage.alt = tshirt.name;
+            tshirtName.textContent = tshirt.name;
+            tshirtDescription.textContent = tshirt.description;
+
+            sizeContainer.innerHTML = '';
+            tshirt.sizes.forEach(size => {
+                const sizeBtn = document.createElement('button');
+                sizeBtn.textContent = size;
+                sizeBtn.classList.add('size-btn');
+                sizeBtn.addEventListener('click', () => selectSize(sizeBtn));
+                sizeContainer.appendChild(sizeBtn);
+            });
+
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === tshirts.length - 1;
+        }
+
+        function selectSize(selectedBtn) {
+            sizeContainer.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            selectedBtn.classList.add('selected');
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                displayTshirt(currentIndex);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < tshirts.length - 1) {
+                currentIndex++;
+                displayTshirt(currentIndex);
+            }
+        });
+
+        // Initial display
+        displayTshirt(currentIndex);
+    </script>
+</body>
+</html>
